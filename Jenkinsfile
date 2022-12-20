@@ -71,10 +71,9 @@ pipeline {
 
 	    steps {
 
-	        sh 'cd app/'
-	        sh 'docker build -t automationlearner/kubeapp:$BUILD_NUMBER .'
-	        sh 'cd ../db/'
-	        sh 'docker build -t automationlearner/kubedb:$BUILD_NUMBER .'
+	       
+	        sh 'docker build -t automationlearner/kubeapp:$BUILD_NUMBER app/Dockerfile'
+	        sh 'docker build -t automationlearner/kubedb:$BUILD_NUMBER db/Dockerfile'
 
 	    }
 	 }

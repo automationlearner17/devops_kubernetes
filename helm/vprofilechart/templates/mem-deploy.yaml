@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+        namespace: vprofile
+        name: vprocache01
+        labels:
+                app: mem
+spec:
+        replicas: 1
+        selector:
+                matchLabels:
+                        app: mem
+        template:
+                metadata:
+                        name: vprocache01
+                        namespace: vprofile
+                        labels:
+                                app: mem
+
+                spec:      
+                       containers:
+                         - name: vprocache01
+                           image: memcached
+                           ports:
+                             - name: memport
+                               containerPort: 11211
+

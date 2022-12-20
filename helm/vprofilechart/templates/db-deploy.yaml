@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+        namespace: vprofile
+        name: vprodb
+        labels:
+                app: backend
+
+spec:
+        replicas: 1
+        selector:
+                matchLabels:
+                        app: backend
+        template:
+                metadata:
+                        namespace: vprofile
+                        name: vprodb
+                        labels:
+                                app: backend
+                spec:
+                        containers:
+                                - name: vprodb
+                                  image: automationlearner/kubedb:v1
+                                  ports:
+                                          - name: db-port
+                                            containerPort: 3306
+                                  args: 
+                                     - "--ignore-db-dir=lost+found"
+
+                                  env:
+                                     - name: MYSQL_ROOT_PASSWORD  
+                                       valueFrom:
+                                          secretKeyRef:
+                                                  name: my-secret
+                                                  key: db_root_pass
+                                     - name: MYSQL_PASSWORD
+                                       valueFrom:
+                                          secretKeyRef:
+                                                  name: my-secret
+                                                  key: db_user_pass
+                                     - name: MYSQL_DATABASE
+                                       valueFrom:
+                                          configMapKeyRef:
+                                                  name: my-config
+                                                  key: database
+                                     - name: MYSQL_USER
+                                       valueFrom:
+                                          configMapKeyRef:
+                                                  name: my-config
+                                                  key: db_user
+                                     - name: MYSQL_ROOT_HOST
+                                       value: '%'
+
+                                  volumeMounts:
+                                     - name: db-volume
+                                       mountPath: /var/lib/mysql
+                        nodeSelector:
+                                          zone: us-east-1a
+                  
+                        volumes:
+                                - name: db-volume
+                                  awsElasticBlockStore:
+                                          volumeID: {{.Values.volume.ID}}
+                                          fsType: ext4
+                                        

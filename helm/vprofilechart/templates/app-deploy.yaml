@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+        name: vpro-app
+        namespace: vprofile
+        labels:
+                app: frontend
+spec:
+        replicas: 1
+        selector:
+                matchLabels:
+                        app: frontend
+        template:
+                metadata:
+                        namespace: vrpfile
+                        name: vpro-app
+                        labels:
+                                app: frontend
+                spec:
+                  containers:
+                        - name: vpro-app
+                          image: automationlearner/kubeapp:v1
+                          ports:
+                                  - name: appport
+                                    containerPort: 8080
+

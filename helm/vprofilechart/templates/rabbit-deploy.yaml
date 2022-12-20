@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+        namespace: vprofile
+        name: vprorabbitmq
+        labels:
+                app: rbmq
+spec:
+        replicas: 1
+        selector:
+                matchLabels:
+                        app: rbmq
+        template:
+                metadata:
+                        name: vprorabbitmq
+                        namespace: vprofile
+                        labels:
+                                app: rbmq
+                spec:
+                   containers:
+                        - name: vprorabbitmq
+                          image: rabbitmq
+                          ports:
+                                  - name: rbport
+                                    containerPort: 15672
+                          env:
+                                  - name: RABBITMQ_DEFAULT_USER
+                                    valueFrom:
+                                            configMapKeyRef:
+                                                    name: my-config
+                                                    key: rabbit_user
+                                  - name: RABBITMQ_DEFAULT_PASS
+                                    valueFrom:
+                                            secretKeyRef:
+                                                    name: my-secret
+                                                    key: rabbit_pass
+
+
+

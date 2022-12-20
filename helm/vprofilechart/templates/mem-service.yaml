@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+        namespace: vprofile
+        name: vprocache01
+        labels:
+                app: mem
+spec:
+        selector:
+                app: mem
+        ports:
+                - port: 11211
+                  targetPort: memport
+                  protocol: TCP
+        type: ClusterIP

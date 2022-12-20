@@ -96,7 +96,7 @@ pipeline {
 
         steps {
 
-           sh 'helm install app-stack helm/vprofilechart --namespace vprofile'
+           sh 'helm upgrade app-stack helm/vprofilechart --namespace vprofile'
 
         }
 

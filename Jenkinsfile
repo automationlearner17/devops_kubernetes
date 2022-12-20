@@ -72,8 +72,8 @@ pipeline {
 	    steps {
 
 	       
-	        sh 'docker build -t automationlearner/kubeapp:$BUILD_NUMBER app/Dockerfile'
-	        sh 'docker build -t automationlearner/kubedb:$BUILD_NUMBER db/Dockerfile'
+	        sh 'docker build -t automationlearner/kubeapp:$BUILD_NUMBER app/'
+	        sh 'docker build -t automationlearner/kubedb:$BUILD_NUMBER db/'
 
 	    }
 	 }
@@ -96,7 +96,7 @@ pipeline {
 
         steps {
 
-           sh 'helm install app-stack helm/vprofilechart'
+           sh 'helm install app-stack helm/vprofilechart --namespace vprofile'
 
         }
 
